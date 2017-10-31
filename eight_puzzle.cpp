@@ -63,7 +63,7 @@ queue<puzzleBoard> misplacedTile(queue<puzzleBoard>& q, puzzleBoard& n, vector<p
    puzzleBoard temp = n;
    temp.moveBlankUp();
    puzzleBoard childUp = temp;
-   3
+   
    temp = n;
    temp.moveBlankDown();
    puzzleBoard childDown = temp;
@@ -91,6 +91,7 @@ int general_search(puzzleBoard& p, const string& queueing_function){
    // make queue and initalize with inital state
    queue<puzzleBoard> nodes;
    vector<puzzleBoard> repeatedStates; // keeps track of which state we've seen
+   nodes.push(p);
    repeatedStates.push_back(p);
    
    // basically an infinite loop
@@ -144,8 +145,14 @@ int main(){
       eightPuzzle = puzzleBoard();
    }
    else if(input == "2"){
+      cout << "Enter # of rows and columns, seperate using a space: ";
+      cin >> row >> column;
+      cout << "row: " << row << " column: " << column << endl;
+      cout << endl;
+      
       eightPuzzle = puzzleBoard(row, column);
       eightPuzzle.populateBoard();
+      cout << endl;
    }
    else{
       cout << "Dude, just enter 1 or 2 like a normal person..." << endl;
