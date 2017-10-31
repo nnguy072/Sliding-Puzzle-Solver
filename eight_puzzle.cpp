@@ -109,7 +109,6 @@ int general_search(puzzleBoard& p, const string& queueing_function){
       
       // if the node we're checking is in goal state return success
       if(node.isGoalState()){
-         cout << "Wow, this shit actually works??" << endl;
          return 1;
       }
       
