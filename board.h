@@ -12,8 +12,12 @@ class puzzleBoard {
       int xBlank;
       int yBlank;
    
-      bool hasMoved;                        // changes when blank moves
- 
+      bool hasMoved;                      // changes when blank moves
+      
+      int depth;                          // depth of the node
+      int misplacedTiles;                 // # of misplaced tiles
+      int manhattanDistance;              // manhattan distance
+      
    public:
       puzzleBoard();                      // makes 3x3 board w/ hardcoded numbers
       puzzleBoard(int row, int column);   // row x column board
@@ -25,6 +29,7 @@ class puzzleBoard {
       int getXBlank();                    // return x/row index of blank square
       int getYBlank();                    // return y/column index of blank square
       bool getHasMoved();
+      int getDepth();                     // gets the depth
       
       void printBoard();                  // output current board state 
       void printGoalState();              // output the goal state
@@ -39,7 +44,9 @@ class puzzleBoard {
       puzzleBoard& operator=(const puzzleBoard& rhs);
       bool operator==(const puzzleBoard& rhs) const;
       
-      int misplaced();                    // return number of misplaced tiles
-      int manhattan();                    // return manhattan distance
+      int calcMisplaced();                    // return number of misplaced tiles
+      int calcManhattan();                    // return manhattan distance
       
+      int getMisplacedHeurstic();
+      int getManhattanHeurstic();
 };

@@ -14,6 +14,7 @@ puzzleBoard::puzzleBoard() {
    row = 3;
    column = 3;
    hasMoved = false;
+   depth = 0;
    
    //definitely a better way of doing this
    // hard code default board
@@ -41,6 +42,11 @@ puzzleBoard::puzzleBoard() {
    // update location of blank
    xBlank = 0;
    yBlank = 2;
+   
+   // after populating board and storing goal state
+   // we can calculate the misplaced tiles & manhattan distance
+   misplacedTiles = calcMisplaced();
+   manhattanDistance = calcManhattan();
 }
 
 // define a row x column board with 0's
@@ -53,6 +59,7 @@ puzzleBoard::puzzleBoard(int row, int column){
    this->row = row;
    this->column = column;
    hasMoved = false;
+   depth = 0;
    
    // generate goal state
    int counter = 1;
@@ -84,6 +91,10 @@ void puzzleBoard::populateBoard() {
          }
       }
    }
+   
+   // after populating the board we can calculate misplaced tiles & manhattan
+   misplacedTiles = calcMisplaced();
+   manhattanDistance = calcManhattan();
 }
 
 // check if board is in goal State 
@@ -103,6 +114,7 @@ int puzzleBoard::getColumn(){ return column; }
 int puzzleBoard::getXBlank(){ return xBlank; }
 int puzzleBoard::getYBlank(){ return yBlank; }
 bool puzzleBoard::getHasMoved(){ return hasMoved; }
+int puzzleBoard::getDepth(){ return depth; }
 
 // prints n x n board
 void puzzleBoard::printBoard() {
@@ -145,6 +157,7 @@ bool puzzleBoard::moveBlankUp(){
       // update blank location
       xBlank -= 1;
       hasMoved = true;
+      depth++;
    }
    return true;
 }
@@ -164,6 +177,7 @@ bool puzzleBoard::moveBlankDown(){
       // update blank location
       xBlank += 1;
       hasMoved = true;
+      depth++;
    }
    return true;
 }
@@ -183,6 +197,7 @@ bool puzzleBoard::moveBlankLeft(){
       // update blank location
       yBlank -= 1;
       hasMoved = true;
+      depth++;
    }
    return true;
 }
@@ -202,6 +217,7 @@ bool puzzleBoard::moveBlankRight(){
       // update blank location
       yBlank += 1;
       hasMoved = true;
+      depth++;
    }
    return true;
 }
@@ -241,6 +257,8 @@ puzzleBoard& puzzleBoard::operator=(const puzzleBoard& rhs){
    column = rhs.column;
    xBlank = rhs.xBlank;
    yBlank = rhs.yBlank;
+   depth = rhs.depth;
+   hasMoved = hasMoved;
    
    return *this;
 }
@@ -255,20 +273,35 @@ bool puzzleBoard::operator==(const puzzleBoard& rhs) const{
    return true;
 }
 
-int puzzleBoard::misplaced(){
-   int misplacedTiles = 0;
-
+// calculates # of misplaced tiles
+// g(n) = depth/cost, h(n) = # of misplaced tiles
+int puzzleBoard::calcMisplaced(){
+   misplacedTiles = 0;
    for(int i = 0; i < row; i++){
       for(int j = 0; j < column; j++){
-         if(board[i][j] != goalState[i][j])
-            misplacedTiles++;
+         if(board[i][j] != 0){
+            if(board[i][j] != goalState[i][j])
+               misplacedTiles++;
+         }
       }
    }
+   //cout << "misplaced Tiles: " << misplacedTiles << endl;
    return misplacedTiles;
 }
 
-int puzzleBoard::manhattan(){
-   int manhattanDistance = 0;
-   
+// calculates manhattan distance
+// f(n) = g(n) + h(n); g(n) = depth/cost to get to node h(n) = manhattan distance
+int puzzleBoard::calcManhattan(){
+   manhattanDistance = 0;
+
    return manhattanDistance;
+}
+
+// calculate the heurstic so misplaced + depth
+int puzzleBoard::getMisplacedHeurstic(){
+   return calcMisplaced() + depth;
+}
+
+int puzzleBoard::getManhattanHeurstic(){
+   return calcManhattan() + depth;
 }
