@@ -145,6 +145,18 @@ int general_search(puzzleBoard& p, const string& queueing_function){
       puzzleBoard node = nodes.front();
       nodes.pop();
       
+      // if the node we're checking is in goal state return success
+      if(node.isGoalState()){
+         cout << "Success!" << endl;
+         node.printBoard();
+         cout << endl;
+         
+         cout << "To solve this problem the search algorithm expanded a total of " << repeatedStates.size() << " nodes." << endl;
+         cout << "The maximum number of nodes in the queue at any one time was " << max << "." << endl;
+         cout << "The depth of the goal node was " << node.getDepth() << "." << endl;
+         return 1;
+      }
+      
       if(node.getDepth() == 0){
          cout << "Expanding state: " << endl;
       }
@@ -155,15 +167,6 @@ int general_search(puzzleBoard& p, const string& queueing_function){
       // print the node it is checking/expanding
       node.printBoard();
       cout << endl;
-
-      // if the node we're checking is in goal state return success
-      if(node.isGoalState()){
-         cout << "Success\n" << endl;
-         cout << "To solve this problem the search algorithm expanded a total of " << repeatedStates.size() << " nodes." << endl;
-         cout << "The maximum number of nodes in the queue at any one time was " << max << "." << endl;
-         cout << "The depth of the goal node was " << node.getDepth() << "." << endl;
-         return 1;
-      }
       
       // expand and enqueue children
       // 1 == uniform cost; 2 == misplacedTile; 3 == manhattanDistance
