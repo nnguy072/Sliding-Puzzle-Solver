@@ -286,7 +286,11 @@ int puzzleBoard::calcManhattan(){
       y1 = i + j + i + (i + 1)
       i.g. for 3x3: 6 is at (1,2) so 6 = 1 + 2 + 1 + (1 + 1) = 6 
       I wrote out value / indexes and tried to find a pattern
-      I mean technically I didn't prove this is right, but I think it is?
+      I mean technically I didn't prove this is right for ever input
+      ...but I think it is?
+      
+      alternative is to use 4 nested loop to iterate through board to get index
+      then iterate through the goalState to get the correct index
    */
    int x1, y1 = 0;
    for(int i = 0; i < row; i++){

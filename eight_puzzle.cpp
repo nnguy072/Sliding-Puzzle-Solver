@@ -102,9 +102,6 @@ int general_search(puzzleBoard& p, const string& algorithm){
       // if the node we're checking is in goal state return success
       if(node.isGoalState()){
          cout << "Success!" << endl;
-         cout << "The best state to expand w/ a g(n) = " << node.getDepth()
-              << " and a h(n) = " << node.calcMisplaced() << " is..." << endl;
-
          node.printBoard();
          cout << endl;
          
@@ -113,7 +110,7 @@ int general_search(puzzleBoard& p, const string& algorithm){
          cout << "The depth of the goal node was " << node.getDepth() << "." << endl;
          return 1;
       }
-      
+   
       // print the node it is checking/expanding
       if(node.getDepth() == 0){
          cout << "Expanding state: " << endl;
