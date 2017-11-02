@@ -19,6 +19,7 @@ bool isRepeated(const vector<puzzleBoard>& v, const puzzleBoard& p);
 queue<puzzleBoard> queueing_function(queue<puzzleBoard>& q, puzzleBoard& n, vector<puzzleBoard>& v, const string& s){
    // we want to store what's in the queue so it can be sorted
    // we want to sort bc we want the one w/ best heurstic to go first
+   // Checking this vector every time is very costly esp since there are 9! states...
    vector<puzzleBoard> tempVec;
    while(!q.empty()){
       tempVec.push_back(q.front());
@@ -101,6 +102,9 @@ int general_search(puzzleBoard& p, const string& algorithm){
       // if the node we're checking is in goal state return success
       if(node.isGoalState()){
          cout << "Success!" << endl;
+         cout << "The best state to expand w/ a g(n) = " << node.getDepth()
+              << " and a h(n) = " << node.calcMisplaced() << " is..." << endl;
+
          node.printBoard();
          cout << endl;
          
@@ -114,7 +118,7 @@ int general_search(puzzleBoard& p, const string& algorithm){
       if(node.getDepth() == 0){
          cout << "Expanding state: " << endl;
       }
-      if(node.getDepth() != 0 && algorithm == "2"){
+      if(node.getDepth() != 0 && (algorithm == "2" || algorithm == "3")){
          cout << "The best state to expand w/ a g(n) = " << node.getDepth()
               << " and a h(n) = " << node.calcMisplaced() << " is..." << endl;
       }

@@ -1,5 +1,6 @@
 #include "board.h"
 #include <iostream>
+#include <cstdlib>   // for calculating manhattan distance; need abs()
 using namespace std;
 
 /* 
@@ -252,12 +253,14 @@ bool puzzleBoard::operator==(const puzzleBoard& rhs) const{
 // g(n) = depth/cost, h(n) = # of misplaced tiles
 int puzzleBoard::calcMisplaced(){
    misplacedTiles = 0;
+   
+   // iterate through the current board and compare [i][j] with the goal state
+   // if it's different then increment misplace tiles.
    for(int i = 0; i < row; i++){
-      for(int j = 0; j < column; j++){
-         if(board[i][j] != 0){
-            if(board[i][j] != goalState[i][j])
+      for(int j = 0; j < column; j++)
+      // don't count blanks as one
+         if(board[i][j] != 0 && board[i][j] != goalState[i][j]){  
                misplacedTiles++;
-         }
       }
    }
    //cout << "misplaced Tiles: " << misplacedTiles << endl;
@@ -268,7 +271,39 @@ int puzzleBoard::calcMisplaced(){
 // f(n) = g(n) + h(n); g(n) = depth/cost to get to node h(n) = manhattan distance
 int puzzleBoard::calcManhattan(){
    manhattanDistance = 0;
-
+   
+   // add vertical + horizontal lengths
+   // manhattan distance is subtracting distance and add the absolute value of
+   // x and y together
+   /*   current   goal(x1,y1)    0 is at (0, 0), it should be at (2,2).
+         0 1 2    1 2 3    | x1 - x | = | 2 - 0 | = 2
+         4 5 3    4 5 6    | y1 - y | = | 2 - 0 | = 2
+         7 8 6    7 8 0    2 + 2 = 4; so the manhattan distance is 4
+   
+      x1 = (value - 1) / row 
+      i.g. value 6, row size = 3. we know it's gonna be on second row
+      
+      y1 = i + j + i + (i + 1)
+      i.g. for 3x3: 6 is at (1,2) so 6 = 1 + 2 + 1 + (1 + 1) = 6 
+      I wrote out value / indexes and tried to find a pattern
+      I mean technically I didn't prove this is right, but I think it is?
+   */
+   int x1, y1 = 0;
+   for(int i = 0; i < row; i++){
+      for(int j = 0; j < column; j++){
+         // don't want to include blank space
+         if(board[i][j] != 0 && board[i][j] != goalState[i][j]){   
+            // calculate index of value in goal state
+            x1 = (board[i][j] - 1) / row;
+            y1 = board[i][j] - (3 * x1) - 1;
+            
+            //out << board[i][j] << " index: " << x1 << " " << y1 << endl;
+            manhattanDistance += abs(x1 - i) + abs(y1 - j);
+            //cout << "manhattanDistance: " << manhattanDistance << endl;
+         }
+      }
+   }
+   
    return manhattanDistance;
 }
 
