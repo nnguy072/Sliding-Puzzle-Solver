@@ -39,8 +39,6 @@ class puzzleBoard {
       bool moveBlankLeft();               // move blank square left
       bool moveBlankRight();              // move blank square right
       
-      void testMoving();                  // test moves for out of bounds and correctness
-      
       puzzleBoard& operator=(const puzzleBoard& rhs);
       bool operator==(const puzzleBoard& rhs) const;
       

@@ -223,31 +223,6 @@ bool puzzleBoard::moveBlankRight(){
 }
 // ----------------------------------------------------------------------
 
-void puzzleBoard::testMoving(){
-   string input;
-   
-   cout << "u/d/r/l: ";
-   cin >> input;
-   
-   while(input == "u" || input == "d" || input == "r" || input == "l"){
-   if(input == "u"){
-      moveBlankUp();
-      printBoard();
-   } else if(input == "d"){
-      moveBlankDown();
-      printBoard();
-   } else if(input == "r"){
-      moveBlankRight();
-      printBoard();
-   } else if(input == "l"){
-      moveBlankLeft();
-      printBoard();
-   }
-   cout << "u/d/r/l: ";
-   cin >> input;
-   }
-}
-
 puzzleBoard& puzzleBoard::operator=(const puzzleBoard& rhs){
    // HOW IS THIS THING WORKING???
    // these are all private data fields??
