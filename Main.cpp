@@ -174,7 +174,7 @@ int main(){
    cout << "Enter your choice of algorithm:" << endl;
    cout << "\t1. Uniform Cost Search" << endl;
    cout << "\t2. A* with the Misplaced Tile Heuristic" << endl;
-   cout << "\t3. A* with the Manhattan distance heuristic" << endl;
+   cout << "\t3. A* with the Manhattan Distance Heuristic" << endl;
    cout << "\t";
    cin >> input;
    cout << endl;
