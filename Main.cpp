@@ -1,6 +1,6 @@
 #include <iostream>
 #include <queue>
-#include "board.h"
+#include "Board.h"
 using namespace std;
 
 // helper function

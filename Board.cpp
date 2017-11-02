@@ -1,4 +1,4 @@
-#include "board.h"
+#include "Board.h"
 #include <iostream>
 #include <cstdlib>   // for calculating manhattan distance; need abs()
 using namespace std;
