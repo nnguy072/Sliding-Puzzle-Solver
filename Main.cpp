@@ -16,10 +16,8 @@ bool isRepeated(const vector<puzzleBoard>& v, const puzzleBoard& p);
 //
 // 3 = manhattan distance:
 // f(n) = g(n) + h(n); g(n) = cost to get to node/depth h(n) = manhattan distance
-queue<puzzleBoard> queueing_function(queue<puzzleBoard>& q, puzzleBoard& n, vector<puzzleBoard>& v, const string& s){
+queue<puzzleBoard> queueing_algorithm(queue<puzzleBoard>& q, puzzleBoard& n, vector<puzzleBoard>& v, const string& s){
    // we want to store what's in the queue so it can be sorted
-   // we want to sort bc we want the one w/ best heurstic to go first
-   // Checking this vector every time is very costly esp since there are 9! states...
    vector<puzzleBoard> tempVec;
    while(!q.empty()){
       tempVec.push_back(q.front());
@@ -81,13 +79,18 @@ queue<puzzleBoard> queueing_function(queue<puzzleBoard>& q, puzzleBoard& n, vect
    return q; 
 }
 
-int general_search(puzzleBoard& p, const string& algorithm){
+int general_search(puzzleBoard& p, const string& queueing_function){
    // make queue and initalize with inital state
    queue<puzzleBoard> nodes;
-   vector<puzzleBoard> repeatedStates; // keeps track of which state we've seen
+   // keeps track of which state we've seen
+   // that way we don't add repeated states into our queue
+   // also checking this seems pretty costly since it's 9! states
+   // for a 3x3 board...
+   vector<puzzleBoard> repeatedStates;
    nodes.push(p);
    repeatedStates.push_back(p);
-   int max = 0;
+   int max = 0;            // keep track of maximum size of queue
+   int nodesExpanded = 0;  // keeps track of # of nodes we expanded
    
    // basically an infinite loop
    while(1){
@@ -105,7 +108,7 @@ int general_search(puzzleBoard& p, const string& algorithm){
          node.printBoard();
          cout << endl;
          
-         cout << "To solve this problem the search algorithm expanded a total of " << repeatedStates.size() << " nodes." << endl;
+         cout << "To solve this problem the search algorithm expanded a total of " << nodesExpanded << " nodes." << endl;
          cout << "The maximum number of nodes in the queue at any one time was " << max << "." << endl;
          cout << "The depth of the goal node was " << node.getDepth() << "." << endl;
          return 1;
@@ -115,13 +118,13 @@ int general_search(puzzleBoard& p, const string& algorithm){
       if(node.getDepth() == 0){
          cout << "Expanding state: " << endl;
       }
-      if(node.getDepth() != 0 && algorithm == "1"){
+      if(node.getDepth() != 0 && queueing_function == "1"){
          cout << "The best state to expand w/ a g(n) = " << node.getDepth()
               << " and a h(n) = 0 is..." << endl;
-      } else if(node.getDepth() != 0 && algorithm == "2"){
+      } else if(node.getDepth() != 0 && queueing_function == "2"){
          cout << "The best state to expand w/ a g(n) = " << node.getDepth()
               << " and a h(n) = " << node.calcMisplaced() << " is..." << endl;
-      } else if(node.getDepth() != 0 && algorithm == "3"){
+      } else if(node.getDepth() != 0 && queueing_function == "3"){
          cout << "The best state to expand w/ a g(n) = " << node.getDepth()
               << " and a h(n) = " << node.calcManhattan() << " is..." << endl;
       }
@@ -129,10 +132,13 @@ int general_search(puzzleBoard& p, const string& algorithm){
       cout << endl;
       
       // expand and enqueue children
+      // string queueing function to determine which to use:
       // 1 == uniform cost; 2 == misplacedTile; 3 == manhattanDistance
       // repeatedStates vector to check for repeated states
-      nodes = queueing_function(nodes, node, repeatedStates, algorithm);
-         
+      nodes = queueing_algorithm(nodes, node, repeatedStates, queueing_function);
+      
+      nodesExpanded++;        // increment number of times to expand
+      
       // keep track of maximum number of nodes at any one time
       if(nodes.size() > max)
          max = nodes.size();
