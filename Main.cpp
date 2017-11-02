@@ -115,9 +115,15 @@ int general_search(puzzleBoard& p, const string& algorithm){
       if(node.getDepth() == 0){
          cout << "Expanding state: " << endl;
       }
-      if(node.getDepth() != 0 && (algorithm == "2" || algorithm == "3")){
+      if(node.getDepth() != 0 && algorithm == "1"){
+         cout << "The best state to expand w/ a g(n) = " << node.getDepth()
+              << " and a h(n) = 0 is..." << endl;
+      } else if(node.getDepth() != 0 && algorithm == "2"){
          cout << "The best state to expand w/ a g(n) = " << node.getDepth()
               << " and a h(n) = " << node.calcMisplaced() << " is..." << endl;
+      } else if(node.getDepth() != 0 && algorithm == "3"){
+         cout << "The best state to expand w/ a g(n) = " << node.getDepth()
+              << " and a h(n) = " << node.calcManhattan() << " is..." << endl;
       }
       node.printBoard();
       cout << endl;
