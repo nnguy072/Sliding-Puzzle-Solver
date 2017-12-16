@@ -109,10 +109,13 @@ int general_search(puzzleBoard& p, const string& queueing_function){
          cout << "To solve this problem the search algorithm expanded a total of " << nodesExpanded << " nodes." << endl;
          cout << "The maximum number of nodes in the queue at any one time was " << max << "." << endl;
          cout << "The depth of the goal node was " << node.getDepth() << "." << endl;
+         
+         cout << "Steps: " << node.getMove() << endl;
          return 1;
       }
    
       // print the node it is checking/expanding
+      /*
       if(node.getDepth() != 0 && queueing_function == "1"){
          cout << "The best state to expand w/ a g(n) = " << node.getDepth()
               << " and a h(n) = 0 is..." << endl;
@@ -129,6 +132,7 @@ int general_search(puzzleBoard& p, const string& queueing_function){
          node.printBoard();
          cout << endl;
       }
+      */
 
       // expand and enqueue children
       // string queueing function to determine which to use:

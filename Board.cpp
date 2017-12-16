@@ -119,7 +119,7 @@ int puzzleBoard::getYBlank(){ return yBlank; }
 bool puzzleBoard::getHasMoved(){ return hasMoved; }
 int puzzleBoard::getDepth(){ return depth; }
 string puzzleBoard::getMove(){ return move; }
-void puzzleBoard::setMove(string n){ move = n; }
+void puzzleBoard::setMove(string n){ move += " " + n; }
 
 // prints n x n board
 void puzzleBoard::printBoard() {
@@ -163,7 +163,10 @@ bool puzzleBoard::moveBlankUp(){
       xBlank -= 1;
       hasMoved = true;
       depth++;
-      move = "up";
+      if(move == "")
+         move = "up";
+      else
+         move += " up";
    }
    return true;
 }
@@ -184,7 +187,10 @@ bool puzzleBoard::moveBlankDown(){
       xBlank += 1;
       hasMoved = true;
       depth++;
-      move = "down";
+      if(move == "")
+         move = "down";
+      else
+         move += " down";
    }
    return true;
 }
@@ -205,7 +211,10 @@ bool puzzleBoard::moveBlankLeft(){
       yBlank -= 1;
       hasMoved = true;
       depth++;
-      move = "left";
+      if(move == "")
+         move = "left";
+      else
+         move += " left";   
    }
    return true;
 }
@@ -226,7 +235,10 @@ bool puzzleBoard::moveBlankRight(){
       yBlank += 1;
       hasMoved = true;
       depth++;
-      move = "right";
+      if(move == "")
+         move = "right";
+      else
+         move += " right";
    }
    return true;
 }
