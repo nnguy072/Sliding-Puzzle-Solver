@@ -3,8 +3,6 @@
 #include "Board.h"
 using namespace std;
 
-static vector<puzzleBoard> steps;
-
 // helper function
 void quickSortMisplaced(vector<puzzleBoard>& v, int left, int right);
 void quickSortManhattan(vector<puzzleBoard>& v, int left, int right);
@@ -101,9 +99,6 @@ int general_search(puzzleBoard& p, const string& queueing_function){
       // remove front of queue
       puzzleBoard node = nodes.front();
       nodes.pop();
-      if(node.getDepth() != 0){
-         steps.push_back(node);
-      }
       
       // if the node we're checking is in goal state return success
       if(node.isGoalState()){
@@ -118,24 +113,23 @@ int general_search(puzzleBoard& p, const string& queueing_function){
       }
    
       // print the node it is checking/expanding
-      /*
-      if(node.getDepth() == 0){
-         cout << "Expanding state: " << endl;
-      }
       if(node.getDepth() != 0 && queueing_function == "1"){
          cout << "The best state to expand w/ a g(n) = " << node.getDepth()
               << " and a h(n) = 0 is..." << endl;
+         node.printBoard();
+         cout << endl;
       } else if(node.getDepth() != 0 && queueing_function == "2"){
          cout << "The best state to expand w/ a g(n) = " << node.getDepth()
               << " and a h(n) = " << node.calcMisplaced() << " is..." << endl;
+         node.printBoard();
+         cout << endl;
       } else if(node.getDepth() != 0 && queueing_function == "3"){
          cout << "The best state to expand w/ a g(n) = " << node.getDepth()
               << " and a h(n) = " << node.calcManhattan() << " is..." << endl;
+         node.printBoard();
+         cout << endl;
       }
-      node.printBoard();
-      cout << endl;
-      */
-      
+
       // expand and enqueue children
       // string queueing function to determine which to use:
       // 1 == uniform cost; 2 == misplacedTile; 3 == manhattanDistance
@@ -193,12 +187,6 @@ int main(){
    if(general_search(eightPuzzle, input) != 1)
       cout << "Failure" << endl;
 
-   if(input == "2" || input == "3"){
-      cout << "Steps to solving puzzle: " << endl;
-      for(int i = 0; i < steps.size();i++){
-         cout << i+1 << ". " << steps[i].getMove() << endl;
-      }
-   }   
    return 0;
 }
 
