@@ -3,7 +3,7 @@
 #include "Board.h"
 using namespace std;
 
-static vector<string> steps;
+static vector<puzzleBoard> steps;
 
 // helper function
 void quickSortMisplaced(vector<puzzleBoard>& v, int left, int right);
@@ -102,7 +102,7 @@ int general_search(puzzleBoard& p, const string& queueing_function){
       puzzleBoard node = nodes.front();
       nodes.pop();
       if(node.getDepth() != 0){
-         steps.push_back(node.getMove());
+         steps.push_back(node);
       }
       
       // if the node we're checking is in goal state return success
@@ -194,10 +194,10 @@ int main(){
       cout << "Failure" << endl;
 
    if(input == "2" || input == "3"){
-      cout << "Steps to solving puzzle: ";
+      cout << "Steps to solving puzzle: " << endl;
       for(int i = 0; i < steps.size();i++){
-         cout << steps[i] << " ";
-      } cout << endl;
+         cout << i+1 << ". " << steps[i].getMove() << endl;
+      }
    }   
    return 0;
 }
