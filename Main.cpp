@@ -3,6 +3,8 @@
 #include "Board.h"
 using namespace std;
 
+static vector<string> steps;
+
 // helper function
 void quickSortMisplaced(vector<puzzleBoard>& v, int left, int right);
 void quickSortManhattan(vector<puzzleBoard>& v, int left, int right);
@@ -28,38 +30,32 @@ queue<puzzleBoard> queueing_algorithm(queue<puzzleBoard>& q, puzzleBoard& n, vec
    puzzleBoard temp = n;
    temp.moveBlankUp();
    puzzleBoard childUp = temp;
-   
+
    temp = n;
    temp.moveBlankDown();
    puzzleBoard childDown = temp;
-   
+
    temp = n;
    temp.moveBlankLeft();
    puzzleBoard childLeft = temp;
-   
+
    temp = n;
    temp.moveBlankRight();
    puzzleBoard childRight = temp;
    
-   // checks if expanded is legal and not a repeated state
-   // also add to the vector containing all nodes inside queue
    if(childUp.getHasMoved() && !isRepeated(v, childUp)){
-      //cout << "Queued Up" << endl;
       tempVec.push_back(childUp);
       v.push_back(childUp);   // push into vector to keep track of repeats
    }
    if(childDown.getHasMoved() && !isRepeated(v, childDown)){
-      //cout << "Queued Down" << endl;
       tempVec.push_back(childDown);
       v.push_back(childDown);
    }
    if(childLeft.getHasMoved() && !isRepeated(v, childLeft)){
-      //cout << "Queued Left" << endl;
       tempVec.push_back(childLeft);
       v.push_back(childLeft);
    }
    if(childRight.getHasMoved() && !isRepeated(v, childRight)){
-      //cout << "Queued Right" << endl;
       tempVec.push_back(childRight);
       v.push_back(childRight);
    }
@@ -70,12 +66,12 @@ queue<puzzleBoard> queueing_algorithm(queue<puzzleBoard>& q, puzzleBoard& n, vec
       quickSortMisplaced(tempVec, 0, tempVec.size() - 1);
    else if(s == "3") // manhattan
       quickSortManhattan(tempVec, 0, tempVec.size() - 1);
-      
+
    //populate queue again
    for(int i = 0; i < tempVec.size(); i++){
       q.push(tempVec[i]);
    }
-
+   
    return q; 
 }
 
@@ -92,6 +88,10 @@ int general_search(puzzleBoard& p, const string& queueing_function){
    int max = 0;            // keep track of maximum size of queue
    int nodesExpanded = 0;  // keeps track of # of nodes we expanded
    
+   cout << "Inital State" << endl;
+   p.printBoard();
+   cout << endl;
+   
    // basically an infinite loop
    while(1){
       // if queue is empty then return failure
@@ -101,6 +101,9 @@ int general_search(puzzleBoard& p, const string& queueing_function){
       // remove front of queue
       puzzleBoard node = nodes.front();
       nodes.pop();
+      if(node.getDepth() != 0){
+         steps.push_back(node.getMove());
+      }
       
       // if the node we're checking is in goal state return success
       if(node.isGoalState()){
@@ -115,6 +118,7 @@ int general_search(puzzleBoard& p, const string& queueing_function){
       }
    
       // print the node it is checking/expanding
+      /*
       if(node.getDepth() == 0){
          cout << "Expanding state: " << endl;
       }
@@ -130,6 +134,7 @@ int general_search(puzzleBoard& p, const string& queueing_function){
       }
       node.printBoard();
       cout << endl;
+      */
       
       // expand and enqueue children
       // string queueing function to determine which to use:
@@ -188,6 +193,12 @@ int main(){
    if(general_search(eightPuzzle, input) != 1)
       cout << "Failure" << endl;
 
+   if(input == "2" || input == "3"){
+      cout << "Steps to solving puzzle: ";
+      for(int i = 0; i < steps.size();i++){
+         cout << steps[i] << " ";
+      } cout << endl;
+   }   
    return 0;
 }
 

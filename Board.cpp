@@ -16,6 +16,7 @@ puzzleBoard::puzzleBoard() {
    column = 3;
    hasMoved = false;
    depth = 0;
+   move = "";
    
    //definitely a better way of doing this
    // hard code default board
@@ -61,6 +62,7 @@ puzzleBoard::puzzleBoard(int row, int column){
    this->column = column;
    hasMoved = false;
    depth = 0;
+   move = "";
    
    // generate goal state
    int counter = 1;
@@ -116,6 +118,8 @@ int puzzleBoard::getXBlank(){ return xBlank; }
 int puzzleBoard::getYBlank(){ return yBlank; }
 bool puzzleBoard::getHasMoved(){ return hasMoved; }
 int puzzleBoard::getDepth(){ return depth; }
+string puzzleBoard::getMove(){ return move; }
+void puzzleBoard::setMove(string n){ move = n; }
 
 // prints n x n board
 void puzzleBoard::printBoard() {
@@ -159,6 +163,7 @@ bool puzzleBoard::moveBlankUp(){
       xBlank -= 1;
       hasMoved = true;
       depth++;
+      move = "up";
    }
    return true;
 }
@@ -179,6 +184,7 @@ bool puzzleBoard::moveBlankDown(){
       xBlank += 1;
       hasMoved = true;
       depth++;
+      move = "down";
    }
    return true;
 }
@@ -199,6 +205,7 @@ bool puzzleBoard::moveBlankLeft(){
       yBlank -= 1;
       hasMoved = true;
       depth++;
+      move = "left";
    }
    return true;
 }
@@ -219,6 +226,7 @@ bool puzzleBoard::moveBlankRight(){
       yBlank += 1;
       hasMoved = true;
       depth++;
+      move = "right";
    }
    return true;
 }
@@ -235,7 +243,7 @@ puzzleBoard& puzzleBoard::operator=(const puzzleBoard& rhs){
    yBlank = rhs.yBlank;
    depth = rhs.depth;
    hasMoved = hasMoved;
-   
+   move = rhs.move;
    return *this;
 }
 

@@ -1,4 +1,5 @@
 #include <vector>
+#include <iostream>
 using namespace std;
 
 class puzzleBoard {
@@ -18,6 +19,8 @@ class puzzleBoard {
       int misplacedTiles;                 // # of misplaced tiles
       int manhattanDistance;              // manhattan distance
       
+      string move;                          // returns what move it is
+      
    public:
       puzzleBoard();                      // makes 3x3 board w/ hardcoded numbers
       puzzleBoard(int row, int column);   // row x column board
@@ -30,6 +33,8 @@ class puzzleBoard {
       int getYBlank();                    // return y/column index of blank square
       bool getHasMoved();
       int getDepth();                     // gets the depth
+      string getMove();
+      void setMove(string s);                       
       
       void printBoard();                  // output current board state 
       void printGoalState();              // output the goal state
